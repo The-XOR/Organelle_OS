@@ -262,31 +262,17 @@ void OledScreen::println_8(const char * line, int len, int x, int y) {
 
 void OledScreen::put_pixel(unsigned int on, unsigned int x, unsigned int y) {
 
-  unsigned int page = 0;
-  unsigned int column = 0;
-  unsigned char tmp8 = 0;
-
   x &= 0x7f;
   y &= 0x3f;
 
-  // subtract cause its flipped
-  //page = 7 - (y / 8);
-  //column = 127 - x;
-
-  page = y / 8;
-  column = x;
-
-
-  tmp8 = pix_buf[(page * 128) + column];
+  unsigned int page = (y / 8)<<7;
 
   if (on) {
-    tmp8 |= (1 << (y & 0x7));
+    pix_buf[page + x] |= (1 << (y & 0x7));
   }
   else {
-    tmp8 &= ~(1 << (y & 0x7));
+    pix_buf[page + x] &= ~(1 << (y & 0x7));
   }
-
-  pix_buf[(page * 128) + column] = tmp8;
 }
 
 void OledScreen::invert_screen(void) {
@@ -314,23 +300,11 @@ void OledScreen::invert_area(unsigned int y,unsigned int sizey) {
 
 unsigned int OledScreen::get_pixel(unsigned int x, unsigned int y) {
 
-  unsigned int page = 0;
-  unsigned int column = 0;
-  unsigned char tmp8 = 0;
-
   x &= 0x7f;
   y &= 0x3f;
 
-  // subtract cause its flipped
-  //page = 7 - (y / 8);
-  //column = 127 - x;
-  page = y / 8;
-  column = x;
-
-
-  tmp8 = pix_buf[(page * 128) + column];
-
-  //return (tmp8 >> (7 - (y & 0x7))) & 1;
+  unsigned int page = (y / 8)<<7;
+  unsigned char tmp8 = pix_buf[page + x];
   return (tmp8 >> ((y & 0x7))) & 1;
 }
 

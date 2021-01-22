@@ -17,14 +17,9 @@ objects =  \
 	OSC/OSCTiming.o \
 	OSC/SimpleWriter.o
 
-default :
-	@echo "platform not specified"
 
-organelle : $(objects) hw_interfaces/SerialMCU.o
-	g++ -o fw_dir/mother $(objects) hw_interfaces/SerialMCU.o
-
-organelle_m : CXXFLAGS += -DCM3GPIO_HW -DMICSEL_SWITCH -DPWR_SWITCH -DOLED_30FPS -DBATTERY_METER -DFIX_ABL_LINK
-organelle_m : $(objects) hw_interfaces/CM3GPIO.o
+default : CXXFLAGS += -DCM3GPIO_HW -DMICSEL_SWITCH -DPWR_SWITCH -DOLED_30FPS -DBATTERY_METER -DFIX_ABL_LINK
+default : $(objects) hw_interfaces/CM3GPIO.o
 	g++ -l wiringPi -o fw_dir/mother $(objects) hw_interfaces/CM3GPIO.o
 
 .PHONY : clean
@@ -37,20 +32,8 @@ IMAGE_BUILD_TAG = $(shell cat fw_dir/buildtag)
 IMAGE_VERSION = $(IMAGE_BUILD_VERSION)$(IMAGE_BUILD_TAG)
 IMAGE_DIR = UpdateOS-$(IMAGE_VERSION)
 
-organelle_deploy : organelle
-	@echo "Updating OS to $(IMAGE_VERSION)"
-	fw_dir/scripts/remount-rw.sh
-	@echo "copying fw files to /root"
-	rm -fr /root/fw_dir
-	mkdir /root/fw_dir
-	cp -fr fw_dir/* /root/fw_dir
-	@echo "copying version file to root for backwards compatiblility"
-	cp -fr fw_dir/version /root
-	@echo "copying system files"
-	cp -fr platforms/organelle/rootfs/* /
-	sync
 
-organelle_m_deploy : organelle_m
+deploy : default
 	@echo "Updating OS to $(IMAGE_VERSION)"
 	@echo "copying common fw files"
 	rm -fr /home/music/fw_dir

@@ -20,6 +20,7 @@ class CM3GPIO
     public:
         CM3GPIO();
         void init();
+        void oled_init();
         void poll();
         void pollKnobs();
         void updateOLED(OledScreen &s);
@@ -57,6 +58,8 @@ class CM3GPIO
         
         uint32_t pinValues;
         uint32_t pinValuesLast;
+		const int I2C_ADDRESS = 0x3C;
+		int i2cd;
 };
 
 
