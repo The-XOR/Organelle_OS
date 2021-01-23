@@ -1,35 +1,6 @@
 #include "CM3GPIO.h"
 #include <wiringPiI2C.h>
 
-/*
-// for the OLED
-#define SSD1306_LCDHEIGHT                 64
-#define SSD1306_LCDWIDTH                  128
-#define SSD1306_SETCONTRAST               0x81
-#define SSD1306_DISPLAYALLON_RESUME       0xA4
-#define SSD1306_DISPLAYALLON              0xA5
-#define SSD1306_NORMALDISPLAY             0xA6
-#define SSD1306_INVERTDISPLAY             0xA7
-#define SSD1306_DISPLAYOFF                0xAE
-#define SSD1306_DISPLAYON                 0xAF
-#define SSD1306_SETDISPLAYOFFSET          0xD3
-#define SSD1306_SETCOMPINS                0xDA
-#define SSD1306_SETVCOMDETECT             0xDB
-#define SSD1306_SETDISPLAYCLOCKDIV        0xD5
-#define SSD1306_SETPRECHARGE              0xD9
-#define SSD1306_SETMULTIPLEX              0xA8
-#define SSD1306_SETLOWCOLUMN              0x00
-#define SSD1306_SETHIGHCOLUMN             0x10
-#define SSD1306_SETSTARTLINE              0x40
-#define SSD1306_SETSTARTPAGE              0xB0
-#define SSD1306_MEMORYMODE                0x20
-#define SSD1306_COMSCANINC                0xC0
-#define SSD1306_COMSCANDEC                0xC8
-#define SSD1306_SEGREMAP                  0xA0
-#define SSD1306_CHARGEPUMP                0x8D
-#define SSD1306_EXTERNALVCC               0x1
-#define SSD1306_SWITCHCAPVCC              0x2
-*/
 
 // GPIO pin defs
 #define SR_DATA_WIDTH 32        // number of bits to shift in on the 74HC165s
@@ -37,13 +8,10 @@
 #define SR_CLOCK_ENABLE 35      // CE pin 
 #define SR_DATA 33              // Q7 pin 
 #define SR_CLOCK 32             // CLK pin 
-#define OLED_DC 5               // DC pin of OLED
-#define OLED_RST 6              // RST pin of OLED
 #define LEDG 22          
 #define LEDR 23       
 #define LEDB 24         
 #define AMP_ENABLE 17         
-#define PWR_STATUS 16           // battery or power adapter 
 
 #define AUX_LED_RED_OFF digitalWrite(LEDR,HIGH);
 #define AUX_LED_RED_ON digitalWrite(LEDR,LOW);
@@ -51,21 +19,55 @@
 #define AUX_LED_GREEN_ON digitalWrite(LEDG,LOW);
 #define AUX_LED_BLUE_OFF digitalWrite(LEDB,HIGH);
 #define AUX_LED_BLUE_ON digitalWrite(LEDB,LOW);
+/** Set Lower Column Start Address for Page Addressing Mode. */
+#define SSD1306_SETLOWCOLUMN 0x00
+/** Set Higher Column Start Address for Page Addressing Mode. */
+#define SSD1306_SETHIGHCOLUMN 0x10
+/** Set Memory Addressing Mode. */
+#define SSD1306_MEMORYMODE 0x20
+/** Set display RAM display start line register from 0 - 63. */
+#define SSD1306_SETSTARTLINE 0x40
+/** Set Display Contrast to one of 256 steps. */
+#define SSD1306_SETCONTRAST 0x81
+/** Enable or disable charge pump.  Follow with 0X14 enable, 0X10 disable. */
+#define SSD1306_CHARGEPUMP 0x8D
+/** Set Segment Re-map between data column and the segment driver. */
+#define SSD1306_SEGREMAP 0xA0
+/** Resume display from GRAM content. */
+#define SSD1306_DISPLAYALLON_RESUME 0xA4
+/** Force display on regardless of GRAM content. */
+#define SSD1306_DISPLAYALLON 0xA5
+/** Set Normal Display. */
+#define SSD1306_NORMALDISPLAY 0xA6
+/** Set Inverse Display. */
+#define SSD1306_INVERTDISPLAY 0xA7
+/** Set Multiplex Ratio from 16 to 63. */
+#define SSD1306_SETMULTIPLEX 0xA8
+/** Set Display off. */
+#define SSD1306_DISPLAYOFF 0xAE
+/** Set Display on. */
+#define SSD1306_DISPLAYON 0xAF
+/**Set GDDRAM Page Start Address. */
+#define SSD1306_SETSTARTPAGE 0XB0
+/** Set COM output scan direction normal. */
+#define SSD1306_COMSCANINC 0xC0
+/** Set COM output scan direction reversed. */
+#define SSD1306_COMSCANDEC 0xC8
+/** Set Display Offset. */
+#define SSD1306_SETDISPLAYOFFSET 0xD3
+/** Sets COM signals pin configuration to match the OLED panel layout. */
+#define SSD1306_SETCOMPINS 0xDA
+/** This command adjusts the VCOMH regulator output. */
+#define SSD1306_SETVCOMDETECT 0xDB
+/** Set Display Clock Divide Ratio/ Oscillator Frequency. */
+#define SSD1306_SETDISPLAYCLOCKDIV 0xD5
+/** Set Pre-charge Period */
+#define SSD1306_SETPRECHARGE 0xD9
+/** Deactivate scroll */
+#define SSD1306_DEACTIVATE_SCROLL 0x2E
+/** No Operation Command. */
+#define SSD1306_NOP 0XE3
 
-#define BATTERY_BAR_5 4.8
-#define BATTERY_BAR_4 4.7
-#define BATTERY_BAR_3 4.66
-#define BATTERY_BAR_2 4.43
-#define BATTERY_BAR_1 4.29
-#define BATTERY_BAR_0 4.15
-#define LOW_BATTERY_SHUTDOWN_THRESHOLD 4.0
-/*
-static unsigned char oled_poscode[] = {
-   	SSD1306_SETLOWCOLUMN,                   // low col = 0
-	SSD1306_SETHIGHCOLUMN,                  // hi col = 0
-	SSD1306_SETSTARTLINE                    // line #0
-};
-*/
 CM3GPIO::CM3GPIO() {
 }
 
@@ -100,10 +102,6 @@ void CM3GPIO::init(){
     digitalWrite(LEDG, HIGH);
     digitalWrite(LEDB, HIGH);
 
-    // GPIO for power status 
-    pinMode(PWR_STATUS, INPUT);
-    pullUpDnControl(PWR_STATUS, PUD_OFF);
-    pwrStatus = digitalRead(PWR_STATUS);
 
     // keys
     keyStatesLast = 0;
@@ -114,10 +112,6 @@ void CM3GPIO::init(){
     pinValuesLast = pinValues;
     micSelSwitch = (pinValues >> 3) & 1;
 
-    // set 
-    batteryVoltage = 5;
-    batteryBars = 5;
-    lowBatteryShutdown = false;
 }
 
 void CM3GPIO::clearFlags() {
@@ -150,9 +144,6 @@ void CM3GPIO::poll(){
 
 void CM3GPIO::pollKnobs(){    
 
-    static uint32_t battAvg = 0;
-    static uint8_t num = 0;
-    
     adcs[0] = adcRead(0);
     adcs[1] = adcRead(1);
     adcs[2] = adcRead(2);
@@ -161,46 +152,40 @@ void CM3GPIO::pollKnobs(){
     adcs[5] = adcRead(5);
     adcs[6] = adcRead(7);
 
-    // also check the pwr status pin
-    pwrStatus = digitalRead(PWR_STATUS);
     
     checkFootSwitch();
-    
-    // average 16 battery readings
-    battAvg += adcs[6];
-    num++;
-    num &= 0xf;
-    if (!num) {
-        battAvg >>= 4;
-	    // calculate voltage, the 10.3125 is from the voltage divider
-    	batteryVoltage = ((float)battAvg / 1024) * 10.3125;
-	    battAvg = 0;
-
-        // get bars 
-        if      (batteryVoltage > BATTERY_BAR_5) batteryBars = 5;
-        else if (batteryVoltage > BATTERY_BAR_4) batteryBars = 4;
-        else if (batteryVoltage > BATTERY_BAR_3) batteryBars = 3;
-        else if (batteryVoltage > BATTERY_BAR_2) batteryBars = 2;
-        else if (batteryVoltage > BATTERY_BAR_1) batteryBars = 1;
-        else if (batteryVoltage > BATTERY_BAR_0) batteryBars = 0;
-        // check for low batt shutdown, but only when running on batteries (pwrStatus = 1)
-        if (pwrStatus){
-            if (batteryVoltage < LOW_BATTERY_SHUTDOWN_THRESHOLD) lowBatteryShutdown = true;
-        }
-    }
 
     knobFlag = 1;
 }
 
 void CM3GPIO::oled_init()
-{
+{/*
   unsigned char init_command[] =
 	{
 		0xAE, 0xA8, 0x3F, 0xD3, 0x00, 0x40, 0xA1, 0xC8,
 		0xA6, 0xD5, 0x80, 0xDA, 0x12, 0x81, 0xFF,
 		0xA4, 0xDB, 0x40, 0x20, 0x00, 0x00, 0x10, 0x8D,
 		0x14, 0x2E, 0xA6, 0xAF
-	};
+	};*/
+   static const uint8_t init_command[] = {
+    // Init sequence for Adafruit 128x64 OLED module
+    SSD1306_DISPLAYOFF,
+    SSD1306_SETDISPLAYCLOCKDIV, 0x80,  // the suggested ratio 0x80
+    SSD1306_SETMULTIPLEX, 0x3F,        // ratio 64
+    SSD1306_SETDISPLAYOFFSET, 0x0,     // no offset
+    SSD1306_SETSTARTLINE | 0x0,        // line #0
+    SSD1306_CHARGEPUMP, 0x14,          // internal vcc
+    SSD1306_MEMORYMODE, 0x02,          // page mode
+    SSD1306_SEGREMAP | 0x1,            // column 127 mapped to SEG0
+    SSD1306_COMSCANDEC,                // column scan direction reversed
+    SSD1306_SETCOMPINS, 0x12,          // alt COM pins, disable remap
+    SSD1306_SETCONTRAST, 0x7F,         // contrast level 127
+    SSD1306_SETPRECHARGE, 0xF1,        // pre-charge period (1, 15)
+    SSD1306_SETVCOMDETECT, 0x40,       // vcomh regulator level
+    SSD1306_DISPLAYALLON_RESUME,
+    SSD1306_NORMALDISPLAY,
+    SSD1306_DISPLAYON
+    };
 
 	i2cd = wiringPiI2CSetup(I2C_ADDRESS);
 	for(int i = 0; i < sizeof(init_command); i++)
@@ -213,13 +198,9 @@ void CM3GPIO::updateOLED(OledScreen &s)
     // spi will overwrite the buffer with input, so we need a tmp
     uint8_t tmp[1024];
     memcpy(tmp, s.pix_buf, 1024);
-    /*
+    
    	for(int i = 0; i < 1024; i += 2)
 		wiringPiI2CWriteReg16(i2cd, 0x40, tmp[i] | (tmp[i + 1] << 8));
-        */
-
-   	for(int i = 0; i < 1024; i++)
-		wiringPiI2CWriteReg8(i2cd, 0x40, tmp[i]);
 }
 
 
