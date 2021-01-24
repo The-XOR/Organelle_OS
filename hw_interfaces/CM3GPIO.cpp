@@ -112,6 +112,10 @@ void CM3GPIO::init(){
     pinValuesLast = pinValues;
     micSelSwitch = (pinValues >> 3) & 1;
 
+    // set 
+    batteryVoltage = 5;
+    batteryBars = 5;
+    lowBatteryShutdown = false;
 }
 
 void CM3GPIO::clearFlags() {
