@@ -34,7 +34,9 @@ C'è bisogno della libreria gpio:
 
 e PuredData
 sudo apt install pd 
-
+Lanciare PureData e settare come home documenti 
+/home/music/Pd/externals
+(ATTENZIONE che non ci sia "Documents")
 
 logout / logon per far leggere i nuovi gruppi
 
