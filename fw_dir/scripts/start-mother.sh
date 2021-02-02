@@ -8,7 +8,7 @@ clear
 $SCRIPTS_DIR/killmother.sh
 $SCRIPTS_DIR/setup.sh
 #$SCRIPTS_DIR/check-for-usb-drive.sh
-$SCRIPTS_DIR/mount.sh 
+#per adesso, usiamo un folder che emula /usbdrive $SCRIPTS_DIR/mount.sh 
 
 mkdir -p /tmp/pids
 
@@ -39,4 +39,4 @@ then
     fi
 fi
 echo running $M_DIR/mother with scripts $FW_DIR/scripts
-$M_DIR/mother &
+sudo -E $M_DIR/mother &
