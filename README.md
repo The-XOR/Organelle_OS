@@ -3,7 +3,7 @@
 Provides menu interface for operating the Organelle, interfaces with hardware, launches patches, provides settings for midi, wifi, etc...
 
 AGGIUNGI USER MUSIC:
-sudo usermod newuser_name -a -G pi,adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio
+sudo usermod music -a -G pi,adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio
 sudo echo "music ALL=(ALL) NOPASSWD: ALL">/etc/sudoers.d/010_music-nopasswd
 
 sudo nano /etc/lightdm/lightdm.conf
