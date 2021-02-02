@@ -42,15 +42,16 @@ deploy : default
 	@echo "copying platform fw files"
 	cp -fr platforms/organelle_m/fw_dir/* /home/music/fw_dir
 	chown -R music:music /home/music/fw_dir
-	@echo "copying version file to root for backwards compatiblility"
-	cp -fr fw_dir/version /root
-	@echo "copying systems files"
-	mkdir tmp
-	cp -r platforms/organelle_m/rootfs tmp/
-	chown -R root:root tmp/rootfs
-	chown -R music:music tmp/rootfs/home/music
-	cp -fr --preserve=mode,ownership tmp/rootfs/* /
-	rm -fr tmp
+	
+	#@echo "copying version file to root for backwards compatiblility"
+	#cp -fr fw_dir/version /root
+	#@echo "copying systems files"
+	#mkdir tmp
+	#cp -r platforms/organelle_m/rootfs tmp/
+	#chown -R root:root tmp/rootfs
+	#chown -R music:music tmp/rootfs/home/music
+	#cp -fr --preserve=mode,ownership tmp/rootfs/* /
+	#rm -fr tmp
 	sync
 
 # Generate with g++ -MM *.c* OSC/*.* 
