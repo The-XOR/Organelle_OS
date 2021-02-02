@@ -1,3 +1,4 @@
+#include <pigpio.h>
 #include "CM3GPIO.h"
 
 #define AUX_LED_RED_OFF     red.Off();
@@ -9,6 +10,7 @@
 
 CM3GPIO::CM3GPIO() 
 {
+    gpioInitialise();
 }
 
 void CM3GPIO::init()
