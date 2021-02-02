@@ -12,3 +12,5 @@ Collegare encoder:
  led rosso (220 ohm) GPIO 16
  aux button         GPIO 19
  footwitch button   GPIO 13
+
+Gli switch chiudono verso massa (sono pulluppati)

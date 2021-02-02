@@ -20,7 +20,7 @@ objects =  \
 
 default : CXXFLAGS += -DCM3GPIO_HW -DMICSEL_SWITCH -DPWR_SWITCH -DOLED_30FPS -DBATTERY_METER -DFIX_ABL_LINK
 default : $(objects) hw_interfaces/CM3GPIO.o hw_interfaces/button.o hw_interfaces/encoder.o hw_interfaces/led.o hw_interfaces/dispdrv.o
-	g++ -l pigpio -o fw_dir/mother $(objects) hw_interfaces/CM3GPIO.o hw_interfaces/button.o hw_interfaces/encoder.o hw_interfaces/led.o hw_interfaces/dispdrv.o
+	g++ -l pigpio -l rt -o fw_dir/mother $(objects) hw_interfaces/CM3GPIO.o hw_interfaces/button.o hw_interfaces/encoder.o hw_interfaces/led.o hw_interfaces/dispdrv.o
 
 .PHONY : clean
 
@@ -55,6 +55,14 @@ deploy : default
 	chown -R root:root tmp/rootfs
 	cp -fr --preserve=mode,ownership tmp/rootfs/* /
 	rm -fr tmp
+	sudo mkdir /usbdrive
+	sudo chown music:music /usbdrive
+	@echo "  - copying patches"
+	mkdir /usbdrive/Patches
+	cp -r ../Organelle_Patches/* /usbdrive/Patches/
+	@echo "  - copying pd-extended"
+	mkdir /usbdrive/pd-extended
+	cp -r ../Organelle_pd_extra/* /usbdrive/pd-extended/
 	sync
 
 # Generate with g++ -MM *.c* OSC/*.* 

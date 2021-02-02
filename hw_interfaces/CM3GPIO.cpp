@@ -10,11 +10,11 @@
 
 CM3GPIO::CM3GPIO() 
 {
-    gpioInitialise();
 }
 
 void CM3GPIO::init()
 {
+    gpioInitialise();
     green.Init(25);
     red.Init(16);
     blue.Init(24);
