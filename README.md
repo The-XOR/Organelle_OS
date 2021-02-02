@@ -23,3 +23,16 @@ creare user music assegnando i gruppi
 sudo usermod -a -G adm,dialout,cdrom,audio,video,plugdev,games,users,input,netdev,spi,gpio,lpadmin music
 
 logout / logon per far leggere i nuovi gruppi
+
+C'è bisogno della libreria gpio:
+    http://abyz.me.uk/rpi/pigpio/download.html
+    Download and install latest version
+    wget https://github.com/joan2937/pigpio/archive/master.zip
+    unzip master.zip
+    cd pigpio-master
+    make
+    sudo make install
+
+    If the Python part of the install fails it may be because you need the setup tools.
+    sudo apt install python-setuptools python3-setuptools
+

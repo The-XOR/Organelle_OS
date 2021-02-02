@@ -1,5 +1,5 @@
 #include <pigpio.h>
-#include "rotary_encoder.h"
+#include "encoder.h"
 
 RotaryEncoder::RotaryEncoder(int _gpioA, int _gpioB)
 {

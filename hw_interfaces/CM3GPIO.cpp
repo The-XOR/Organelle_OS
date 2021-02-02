@@ -13,9 +13,6 @@ CM3GPIO::CM3GPIO()
 
 void CM3GPIO::init()
 {
-    // setup GPIO, this uses actual BCM pin numbers 
-    gpioInitialise();
-
     green.Init(22);
     red.Init(23);
     blue.Init(24);
@@ -56,10 +53,9 @@ void CM3GPIO::poll()
 
     // get key values if a key pin changed (ignore the encoder pins)
     if ((pinValues & 0xFFFFFF80) != (pinValuesLast & 0xFFFFFF80)) {
-//        displayPinValues();
         getKeys();
         keyFlag = 1;
-    
+    }
     pinValuesLast = pinValues;
 
     micSelSwitch = (pinValues >> 3) & 1;
@@ -69,7 +65,8 @@ void CM3GPIO::poll()
     
 }
 
-void CM3GPIO::pollKnobs(){    
+void CM3GPIO::pollKnobs()
+{    
 
     adcs[0] = adcRead(0);
     adcs[1] = adcRead(1);
@@ -91,7 +88,7 @@ void CM3GPIO::updateOLED(OledScreen &s)
 }
 
 void CM3GPIO::ping()
-
+{
 }
 
 void CM3GPIO::shutdown() 
@@ -207,21 +204,6 @@ uint32_t CM3GPIO::adcRead(uint8_t adcnum)
 { 
    return 0;
     
-}
-
-void CM3GPIO::displayPinValues(void)
-{
-    for(int i = 0; i < SR_DATA_WIDTH; i++)
-    {
-        printf(" ");
-
-        if((pinValues >> ((SR_DATA_WIDTH-1)-i)) & 1)
-            printf("1");
-        else
-            printf("0");
-
-    }
-    printf("\n");
 }
 
 void CM3GPIO::checkFootSwitch (void) 

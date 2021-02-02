@@ -30,13 +30,13 @@ class CM3GPIO
         void setLED(unsigned c);
         void clearFlags();
 
-        uint32_t encBut;
+        int encBut;
         uint32_t encButFlag;
         uint32_t encTurn;
         uint32_t encTurnFlag;
         uint32_t knobFlag;
         uint32_t adcs[8];
-        uint32_t footswitch;
+        int footswitch;
         uint32_t footswitchFlag;
         uint32_t keyStates;
         uint32_t keyStatesLast;
@@ -54,7 +54,6 @@ class CM3GPIO
         void getEncoder();
         void getKeys();
         uint32_t adcRead(uint8_t adcnum);
-        void displayPinValues();
 	    void checkFootSwitch ();
         
         uint32_t pinValues;
@@ -127,8 +126,6 @@ class CM3GPIO
             Footswitch butn;
         };
         Encoder encdr;
-
-    }
 };
 
 

@@ -196,7 +196,7 @@ void DisplayDriver::drawHorizontalLine(int x, int y, int length, PixelColor colo
   }
 }
 
-void DisplayReader::Render(unsigned char *from, int len)
+void DisplayDriver::Render(unsigned char *from, int len)
 {
 	memcpy(frame, from, len);
 	Render();

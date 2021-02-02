@@ -8,7 +8,7 @@ class LED
         ~LED();
         void Init(int pin);
         void Release();
-        void Set(bool on;
+        void Set(bool on);
         void On();
         void Off();
 

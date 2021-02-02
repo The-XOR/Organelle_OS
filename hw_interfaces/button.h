@@ -7,7 +7,7 @@ class Button
    Button(int gpioButton);
    virtual ~Button();
    void Release();
-   voif Init(int gpioButton);
+   void Init(int gpioButton);
 
 protected:
    virtual void onButtonDown() {};

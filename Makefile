@@ -15,12 +15,12 @@ objects =  \
 	OSC/OSCMatch.o \
 	OSC/OSCMessage.o \
 	OSC/OSCTiming.o \
-	OSC/SimpleWriter.o
+	OSC/SimpleWriter.o 
 
 
 default : CXXFLAGS += -DCM3GPIO_HW -DMICSEL_SWITCH -DPWR_SWITCH -DOLED_30FPS -DBATTERY_METER -DFIX_ABL_LINK
-default : $(objects) hw_interfaces/CM3GPIO.o
-	g++ -l wiringPi -o fw_dir/mother $(objects) hw_interfaces/CM3GPIO.o
+default : $(objects) hw_interfaces/CM3GPIO.o hw_interfaces/button.o hw_interfaces/encoder.o hw_interfaces/led.o hw_interfaces/dispdrv.o
+	g++ -l pigpio -o fw_dir/mother $(objects) hw_interfaces/CM3GPIO.o hw_interfaces/button.o hw_interfaces/encoder.o hw_interfaces/led.o hw_interfaces/dispdrv.o
 
 .PHONY : clean
 
@@ -74,5 +74,5 @@ OSCMessage.o: OSC/OSCMessage.cpp OSC/OSCMessage.h OSC/OSCData.h \
   OSC/OSCTiming.h OSC/SimpleWriter.h OSC/OSCMatch.h
 OSCTiming.o: OSC/OSCTiming.cpp OSC/OSCTiming.h
 SimpleWriter.o: OSC/SimpleWriter.cpp OSC/SimpleWriter.h
-SerialMCU.o: hardwares/SerialMCU.cpp hardwares/SerialMCU.h \
- hardwares/../OledScreen.h
+SerialMCU.o: hw_interfaces/SerialMCU.cpp hw_interfaces/SerialMCU.h \
+ hw_interfaces/../OledScreen.h
