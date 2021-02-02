@@ -13,13 +13,13 @@ CM3GPIO::CM3GPIO()
 
 void CM3GPIO::init()
 {
-    green.Init(22);
-    red.Init(23);
+    green.Init(25);
+    red.Init(16);
     blue.Init(24);
     oled.Init(0x3c,128,64);
-    fswitch.Init(10);
-    auxbtn.Init(11);
-    encdr.Init(12,14,13);
+    fswitch.Init(13);
+    auxbtn.Init(19);
+    encdr.Init(20,21,12);
 
     // keys
     keyStatesLast = 0;

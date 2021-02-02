@@ -1,0 +1,14 @@
+Collegare encoder:
+ 
+ PIN        Collegamento
+---------------------------
+ GND        GND
+ VCC        +3.3v
+ encoder DT         GPIO 20
+ encoder CLK        GPIO 21
+ encoder SW         GPIO 12
+ led blu (220 ohm)  GPIO 24
+ led verde (220 ohm) GPIO 25
+ led rosso (220 ohm) GPIO 16
+ aux button         GPIO 19
+ footwitch button   GPIO 13

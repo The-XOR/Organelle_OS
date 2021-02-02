@@ -46,13 +46,15 @@ deploy : default
 	cp -fr fw_dir/version /root
 	@echo "aggiorno folder home/music"
 	cp -fr platforms/organelle_m/home/* /home/music/
-
-	#@echo "copying systems files"
-	#mkdir tmp
-	#cp -r platforms/organelle_m/rootfs tmp/
-	#chown -R root:root tmp/rootfs
-	#cp -fr --preserve=mode,ownership tmp/rootfs/* /
-	#rm -fr tmp
+	@echo "copying systems files"
+	@echo "Creazione dei servizi:"
+	@echo "  - cherrypy.service"
+	@echo "  - createap.service"
+	mkdir tmp
+	cp -r platforms/organelle_m/rootfs tmp/
+	chown -R root:root tmp/rootfs
+	cp -fr --preserve=mode,ownership tmp/rootfs/* /
+	rm -fr tmp
 	sync
 
 # Generate with g++ -MM *.c* OSC/*.* 

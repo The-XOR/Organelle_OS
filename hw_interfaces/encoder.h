@@ -6,8 +6,8 @@ class RotaryEncoder
    public:
    virtual ~RotaryEncoder();
    void Release();
-   RotaryEncoder(int gpioA, int gpioB);
-   void Init(int gpioA, int gpioB);
+   RotaryEncoder(int dt, int clk);
+   void Init(int dt, int clk);
    RotaryEncoder();
 
 protected:
@@ -18,8 +18,8 @@ private:
    void onEvent(int gpio, int level, uint32_t tick);
    static void _cback(int gpio, int level, uint32_t tick, void *user);
 
-   int gpioA;
-   int gpioB;
+   int dt;
+   int clk;
    int levA;
    int levB;
    int lastGpio;
