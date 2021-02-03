@@ -11,7 +11,10 @@ class LED
         void Set(bool on);
         void On();
         void Off();
+        void Toggle();
+        bool IsOn() const {return status;}
 
     private:
         int io_pin;    
+        bool status;
 };

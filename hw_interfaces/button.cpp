@@ -4,18 +4,19 @@
 
 Button::Button()
 {
-   initialized=false;
+   detectDoubleClick=false;
    gpioBtn = -1;
 }
 
-Button::Button(int _gpioButton)
+Button::Button(int _gpioButton, bool _detectDoubleClick)
 {
-   Init(_gpioButton);
+   Init(_gpioButton), _detectDoubleClick;
 }
 
-void Button::Init(int _gpioButton)
+void Button::Init(int _gpioButton, bool _detectDoubleClick)
 {
    gpioBtn = _gpioButton;
+   detectDoubleClick = _detectDoubleClick;
    lastBtnDn=0;
    absorbe_up=false;
    last_received=0;
@@ -34,7 +35,7 @@ void Button::_cback(int gpio, int level, uint32_t tick, void *user)
 
 void Button::onEvent(int gpio, int level, uint32_t tick)
 {
-   if(!initialized)
+   if(gpioBtn < 0)
       return;
 
    if(gpio == gpioBtn)
@@ -50,7 +51,7 @@ void Button::onEvent(int gpio, int level, uint32_t tick)
          {
             uint32_t delta = tick-lastBtnDn;
             lastBtnDn=tick;
-            if(delta > 400)
+            if(!detectDoubleClick || delta > 400)
             {
                absorbe_up = false;
                onButtonDown();
@@ -75,12 +76,10 @@ void Button::setGPIOs()
    gpioSetMode(gpioBtn, PI_INPUT);
    gpioSetPullUpDown(gpioBtn, PI_PUD_UP);
    gpioSetAlertFuncEx(gpioBtn, _cback, this);
-   initialized = true;
 }
 
 void Button::Release()
 {
-   initialized = false;
    if(gpioBtn >=0)
       gpioSetAlertFunc(gpioBtn, 0);
    gpioBtn = -1;

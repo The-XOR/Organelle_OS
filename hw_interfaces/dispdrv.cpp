@@ -249,33 +249,6 @@ void DisplayDriver::Render()
 		i2cWriteByteData(i2cd, 0x40, frame[i]);*/
 }
 
-/*
-void DisplayDriver::Render()
-{
-	 const int x_offset = (128 - width) / 2;
-
-    sendCommand(COLUMNADDR);
-        sendCommand(x_offset);						// column start address (0 = reset)
-        sendCommand(x_offset + (width - 1));// column end address (127 = reset)
-
-        sendCommand(PAGEADDR);
-        sendCommand(0x0);							// page start address (0 = reset)
-
-        if(width==128 && height==64)
-          sendCommand(0x7);
-         else if(width==128 && height==32)
-          sendCommand(0x3);
-		
-	char *output = (char *)frame;
-	int len = frameSize;
-    while(len > 0)
-	{
-		int blkLen = MIN(32, len);
-		i2cWriteI2CBlockData(i2cd, 0x40, output, blkLen);
-		output += blkLen;
-		len -= blkLen;
-    }	
-}*/
 
 void DisplayDriver::Erase()
 {

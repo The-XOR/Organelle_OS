@@ -48,7 +48,7 @@ void RotaryEncoder::_cback(int gpio, int level, uint32_t tick, void *user)
 
 void RotaryEncoder::onEvent(int gpio, int level, uint32_t tick)
 {
-   if(!initialized)
+   if(dt < 0 || clk < 0)
       return;
 
    if (gpio == dt) 
@@ -81,13 +81,10 @@ void RotaryEncoder::setGPIOs()
    gpioSetPullUpDown(clk, PI_PUD_UP);
    gpioSetAlertFuncEx(dt, _cback, this);
    gpioSetAlertFuncEx(clk, _cback, this);
-
-   initialized = true;
 }
 
 void RotaryEncoder::Release()
 {
-   initialized = false;
    if(dt >= 0)
    {
       gpioSetAlertFunc(dt, 0);

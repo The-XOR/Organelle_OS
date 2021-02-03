@@ -23,5 +23,4 @@ private:
    int levA;
    int levB;
    int lastGpio;
-   bool initialized;
 };

@@ -13,12 +13,14 @@ class DisplayDriver
 			BLACK,
 			INVERSE
 		};
-		enum OLEDDISPLAY_TEXT_ALIGNMENT {
-  TEXT_ALIGN_LEFT = 0,
-  TEXT_ALIGN_RIGHT = 1,
-  TEXT_ALIGN_CENTER = 2,
-  TEXT_ALIGN_CENTER_BOTH = 3
-};
+
+		enum OLEDDISPLAY_TEXT_ALIGNMENT 
+		{
+			TEXT_ALIGN_LEFT = 0,
+			TEXT_ALIGN_RIGHT = 1,
+			TEXT_ALIGN_CENTER = 2,
+			TEXT_ALIGN_CENTER_BOTH = 3
+		};
 
 		DisplayDriver();
 		DisplayDriver(int addr, int width, int height, int port=1);
@@ -47,7 +49,7 @@ class DisplayDriver
 		void SetFont(FontSize sz);
 
 	private:
-    OLEDDISPLAY_TEXT_ALIGNMENT   textAlignment;
+    	OLEDDISPLAY_TEXT_ALIGNMENT   textAlignment;
 		unsigned char *frame;
 		int frameSize;
 		int i2cd;
@@ -56,7 +58,7 @@ class DisplayDriver
 		int height;
 		int port;
 		int pages;
-const uint8_t	 *fontData;
+		const uint8_t *fontData;
 
 	private:
 		void sendCommand(int command);

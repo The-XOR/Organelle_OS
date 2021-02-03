@@ -4,10 +4,10 @@ class Button
 {
    public:
    Button();
-   Button(int gpioButton);
+   Button(int gpioButton, bool detectDoubleClick=false);
    virtual ~Button();
    void Release();
-   void Init(int gpioButton);
+   void Init(int gpioButton, bool detectDoubleClick=false);
 
 protected:
    virtual void onButtonDown() {};
@@ -20,16 +20,17 @@ private:
    static void _cback(int gpio, int level, uint32_t tick, void *user);
 
    int gpioBtn;
-   bool initialized;
    uint32_t lastBtnDn;
    bool absorbe_up;
    uint32_t last_received;
+   bool detectDoubleClick;
 };
 
 class PulseButton : public Button
 {
    public:
-      PulseButton() {cur = false;}
+      PulseButton(int gpioButton) : Button(gpioButton) {cur = false;}
+      PulseButton() : Button() {cur = false;}
       bool Down() const  {return cur; }
 
    private:

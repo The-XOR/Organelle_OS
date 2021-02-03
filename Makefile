@@ -17,8 +17,8 @@ objects =  \
 	OSC/OSCTiming.o \
 	OSC/SimpleWriter.o 
 
-
-default : CXXFLAGS += -DCM3GPIO_HW -DMICSEL_SWITCH -DPWR_SWITCH -DOLED_30FPS -DBATTERY_METER -DFIX_ABL_LINK
+# default : CXXFLAGS += -DCM3GPIO_HW -DMICSEL_SWITCH -DPWR_SWITCH -DOLED_30FPS -DBATTERY_METER -DFIX_ABL_LINK
+default : CXXFLAGS += -DCM3GPIO_HW  -DOLED_30FPS -DBATTERY_METER -DFIX_ABL_LINK
 default : $(objects) hw_interfaces/CM3GPIO.o hw_interfaces/button.o hw_interfaces/encoder.o hw_interfaces/led.o hw_interfaces/dispdrv.o
 	g++ -l pigpio -l rt -o fw_dir/mother $(objects) hw_interfaces/CM3GPIO.o hw_interfaces/button.o hw_interfaces/encoder.o hw_interfaces/led.o hw_interfaces/dispdrv.o
 
