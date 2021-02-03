@@ -39,4 +39,4 @@ then
     fi
 fi
 echo running $M_DIR/mother with scripts $FW_DIR/scripts
-$M_DIR/mother &
+sudo -E $M_DIR/mother &
