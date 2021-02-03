@@ -95,6 +95,7 @@ void CM3GPIO::ping()
 
 void CM3GPIO::shutdown() 
 {
+    oled.Clr();
 }
 
 void CM3GPIO::setLED(unsigned stat) 

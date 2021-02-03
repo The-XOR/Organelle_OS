@@ -33,7 +33,8 @@ C'è bisogno della libreria gpio:
     sudo apt install python-setuptools python3-setuptools
 
 e PuredData
-sudo apt install pd liblo-tools
+sudo apt install pd liblo-tools liblo-dev python-liblo pyliblo-utils
+
 Lanciare PureData e settare come home documenti 
 /home/music/Pd/externals
 (ATTENZIONE che non ci sia "Documents")
