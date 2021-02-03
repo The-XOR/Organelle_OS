@@ -45,7 +45,8 @@ deploy : default
 	@echo "copying version file to root for backwards compatiblility"
 	cp -fr fw_dir/version /root
 	@echo "aggiorno folder home/music"
-	cp -r platforms/organelle_m/home/* /home/music/
+	cp -fr platforms/organelle_m/home/* /home/music/
+	cp -ar platforms/organelle_m/home/. /home/music/
 	@echo "copying systems files"
 	@echo "Creazione dei servizi:"
 	@echo "  - cherrypy.service"
@@ -55,8 +56,9 @@ deploy : default
 	chown -R root:root tmp/rootfs
 	cp -fr --preserve=mode,ownership tmp/rootfs/* /
 	rm -fr tmp
-	sudo mkdir /usbdrive
-	sudo chown music:music /usbdrive
+	rm -rf /usbdrive
+	mkdir /usbdrive
+	chown music:music /usbdrive
 	@echo "  - copying patches"
 	mkdir /usbdrive/Patches
 	cp -r ../Organelle_Patches/* /usbdrive/Patches/
