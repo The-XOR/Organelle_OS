@@ -146,10 +146,7 @@ void CM3GPIO::setLED(unsigned stat)
 
 uint32_t CM3GPIO::shiftRegRead(void)
 {
-    uint32_t bytesVal = auxbtn.Down() ? 1 : 0; //todo svagare quale bit e il tasto aux
-    
-    pinValues = bytesVal;
-    return(bytesVal);
+    return pinValues = auxbtn.Down() ? 0 : 1; //todo svagare quale bit e il tasto aux;
 }
 
 void CM3GPIO::getKeys(void){

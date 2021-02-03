@@ -45,7 +45,7 @@ deploy : default
 	@echo "copying version file to root for backwards compatiblility"
 	cp -fr fw_dir/version /root
 	@echo "aggiorno folder home/music"
-	cp -fr platforms/organelle_m/home/* /home/music/
+	cp -r platforms/organelle_m/home/* /home/music/
 	@echo "copying systems files"
 	@echo "Creazione dei servizi:"
 	@echo "  - cherrypy.service"
@@ -60,9 +60,18 @@ deploy : default
 	@echo "  - copying patches"
 	mkdir /usbdrive/Patches
 	cp -r ../Organelle_Patches/* /usbdrive/Patches/
+	cp -r platforms/organelle_m/Patches/* /usbdrive/Patches/	
 	@echo "  - copying pd-extended"
 	mkdir /usbdrive/pd-extended
 	cp -r ../Organelle_pd_extra/* /usbdrive/pd-extended/
+	@echo "  - cleanup"
+	rm -rf /home/music/Videos
+	rm -rf /home/music/Music
+	rm -rf /home/music/Pictures
+	rm -rf /home/music/Templates
+	rm -rf /home/music/Documents
+	rm -rf /home/music/Downloads
+	rm -rf /home/music/Public
 	sync
 
 # Generate with g++ -MM *.c* OSC/*.* 
