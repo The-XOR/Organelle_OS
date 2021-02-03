@@ -20,9 +20,9 @@ sleep .1
 kill -9 `cat /tmp/webserver.pid`
 
 # kill SIGTERM 
-killall mother
+sudo -E killall mother
 sleep .1
 
 # and kill SIGKILL 
-killall -s 9 mother
+sudo -E killall -s 9 mother
 
