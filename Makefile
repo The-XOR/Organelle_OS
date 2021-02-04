@@ -61,11 +61,11 @@ deploy : default
 	chown music:music /usbdrive
 	@echo "  - copying patches"
 	mkdir /usbdrive/Patches
-	cp -r ../Organelle_Patches/* /usbdrive/Patches/
+	cp -r Organelle_Patches/* /usbdrive/Patches/
 	cp -r platforms/organelle_m/Patches/* /usbdrive/Patches/	
 	@echo "  - copying pd-extended"
 	mkdir /usbdrive/pd-extended
-	cp -r ../Organelle_pd_extra/* /usbdrive/pd-extended/
+	cp -r Organelle_pd_extra/* /usbdrive/pd-extended/
 	@echo "  - cleanup"
 	rm -rf /home/music/Videos
 	rm -rf /home/music/Music
@@ -105,13 +105,13 @@ install : default
 	chown patch:patch /usbdrive
 	@echo "  - copying patches"
 	mkdir /usbdrive/Patches
-	cp -r ../Organelle_Patches/* /usbdrive/Patches/
+	cp -r Organelle_Patches/* /usbdrive/Patches/
 	cp -r platforms/organelle_m/Patches/* /usbdrive/Patches/	
 	@echo "  - copying pd-extended"
 	mkdir /usbdrive/pd-extended
-	cp -r ../Organelle_pd_extra/* /usbdrive/pd-extended/
+	cp -r Organelle_pd_extra/* /usbdrive/pd-extended/
 	sync
-	
+
 # Generate with g++ -MM *.c* OSC/*.* 
 AppData.o: AppData.cpp AppData.h OledScreen.h
 MainMenu.o: MainMenu.cpp MainMenu.h AppData.h OledScreen.h

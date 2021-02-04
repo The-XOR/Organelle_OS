@@ -2,6 +2,12 @@
 
 Provides menu interface for operating the Organelle, interfaces with hardware, launches patches, provides settings for midi, wifi, etc...
 
+
+SUBMODULI:
+cd Organelle_OS
+git submodule init
+git submodule update
+
 AGGIUNGI USER MUSIC:
 ATTENZIONE: Su patchbox os sostituire "pi" in  usermod con "patch"
 

@@ -5,6 +5,11 @@ Provides menu interface for operating the Organelle, interfaces with hardware, l
 PER QUESTA DISTRO UTILIZZIAMO L'UTENTE DI BIFOLC "patch"
 ***************IMPORTANTERRIMO: per il deployment, sudo make install (E NON deploy!!!!!!!!!)
 
+SUBMODULI:
+cd Organelle_OS
+git submodule init
+git submodule update
+
 AGGIUNGI LE LIBRERIE MANCANTI:
 Installare l'ultima versione di pigpio:
 
