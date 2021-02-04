@@ -3,10 +3,11 @@ Description=Cherrypy Web Server
 
 [Service] 
 Type=simple 
-WorkingDirectory=/home/music/fw_dir/web/server
-ExecStart=/home/music/fw_dir/web/server/run.sh
-User=music
-Group=music
+WorkingDirectory=/home/patch/fw_dir/web/server
+ExecStart=/home/patch/fw_dir/web/server/run.sh
+User=patch
+Group=User=patch
+
 
 [Install] 
 WantedBy=multi-user.target

@@ -15,7 +15,7 @@
 # targetkbMap="pc+cz+ru:2+gr:3+fr:4"
 #
 # ...provides support for Czech, Russian, Greek and French keyboards.
-export HOME=/home/music
+export HOME=/home/patch
 cd $HOME 
 
 targetkbMap="pc+us+us(intl):2"

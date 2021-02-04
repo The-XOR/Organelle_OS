@@ -36,17 +36,17 @@ IMAGE_DIR = UpdateOS-$(IMAGE_VERSION)
 deploy : default
 	@echo "Updating OS to $(IMAGE_VERSION)"
 	@echo "copying common fw files"
-	rm -fr /home/music/fw_dir
-	mkdir /home/music/fw_dir
-	cp -fr fw_dir/* /home/music/fw_dir
+	rm -fr /home/patch/fw_dir
+	mkdir /home/patch/fw_dir
+	cp -fr fw_dir/* /home/patch/fw_dir
 	@echo "copying platform fw files"
-	cp -fr platforms/organelle_m/fw_dir/* /home/music/fw_dir
-	chown -R music:music /home/music/fw_dir
+	cp -fr platforms/organelle_m/fw_dir/* /home/patch/fw_dir
+	chown -R music:music /home/patch/fw_dir
 	@echo "copying version file to root for backwards compatiblility"
 	cp -fr fw_dir/version /root
 	@echo "aggiorno folder home/music"
-	cp -fr platforms/organelle_m/home/* /home/music/
-	cp -ar platforms/organelle_m/home/. /home/music/
+	cp -fr platforms/organelle_m/home/* /home/patch/
+	cp -ar platforms/organelle_m/home/. /home/patch/
 	@echo "copying systems files"
 	@echo "Creazione dei servizi:"
 	@echo "  - cherrypy.service"
@@ -67,18 +67,18 @@ deploy : default
 	mkdir /usbdrive/pd-extended
 	cp -r Organelle_pd_extra/* /usbdrive/pd-extended/
 	@echo "  - cleanup"
-	rm -rf /home/music/Videos
-	rm -rf /home/music/Music
-	rm -rf /home/music/Pictures
-	rm -rf /home/music/Templates
-	rm -rf /home/music/Documents
-	rm -rf /home/music/Downloads
-	rm -rf /home/music/Public
+	rm -rf /home/patch/Videos
+	rm -rf /home/patch/Music
+	rm -rf /home/patch/Pictures
+	rm -rf /home/patch/Templates
+	rm -rf /home/patch/Documents
+	rm -rf /home/patch/Downloads
+	rm -rf /home/patch/Public
 	sync
 
 install : default
 	@echo "Updating OS to $(IMAGE_VERSION)"
-	@echo "*** SPECIAL PATCHBOX OS INSTALLESCION ****
+	@echo "*** SPECIAL PATCHBOX OS INSTALLESCION ****"
 	@echo "copying common fw files"
 	rm -fr /home/patch/fw_dir
 	mkdir /home/patch/fw_dir

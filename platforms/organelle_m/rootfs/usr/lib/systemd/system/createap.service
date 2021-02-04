@@ -3,8 +3,8 @@ Description=Create AP Daemon
 
 [Service] 
 Type=simple 
-WorkingDirectory=/home/music/fw_dir/
-ExecStart=/home/music/fw_dir/scripts/start-ap.sh
+WorkingDirectory=/home/patch/fw_dir/
+ExecStart=/home/patch/fw_dir/scripts/start-ap.sh
 
 [Install] 
 WantedBy=multi-user.target

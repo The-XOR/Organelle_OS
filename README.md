@@ -30,12 +30,9 @@ manca la password: sudo passwd music  ---> mettere come password "music"
 
 AGGIUNGI LE LIBRERIE MANCANTI:
 Installare l'ultima versione di pigpio:
-
-C'è bisogno della libreria gpio:
-    sudo apt install python3-distutils
-    http://abyz.me.uk/rpi/pigpio/download.html
-    wget https://github.com/joan2937/pigpio/archive/master.zip
-    unzip master.zip
+ 
+    sudo apt install python3-distutils python-setuptools python3-setuptools
+ 
     cd pigpio-master
     make
     sudo make install
@@ -46,7 +43,7 @@ e PuredData
 sudo apt install pd liblo-tools liblo-dev python-liblo pyliblo-utils
 
 Lanciare PureData e settare come home documenti 
-/home/music/Pd/externals
+/home/patch/Pd/externals
 (ATTENZIONE che non ci sia "Documents")
 
 logout / logon per far leggere i nuovi gruppi
