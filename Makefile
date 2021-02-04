@@ -76,6 +76,42 @@ deploy : default
 	rm -rf /home/music/Public
 	sync
 
+install : default
+	@echo "Updating OS to $(IMAGE_VERSION)"
+	@echo "*** SPECIAL PATCHBOX OS INSTALLESCION ****
+	@echo "copying common fw files"
+	rm -fr /home/patch/fw_dir
+	mkdir /home/patch/fw_dir
+	cp -fr fw_dir/* /home/patch/fw_dir
+	@echo "copying platform fw files"
+	cp -fr platforms/organelle_m/fw_dir/* /home/patch/fw_dir
+	chown -R patch:patch /home/patch/fw_dir
+	@echo "copying version file to root for backwards compatiblility"
+	cp -fr fw_dir/version /root
+	@echo "aggiorno folder home/patch"
+	cp -fr platforms/organelle_m/home/* /home/patch/
+	cp -ar platforms/organelle_m/home/. /home/patch/
+	@echo "copying systems files"
+	@echo "Creazione dei servizi:"
+	@echo "  - cherrypy.service"
+	@echo "  - createap.service"
+	mkdir tmp
+	cp -r platforms/organelle_m/rootfs tmp/
+	chown -R root:root tmp/rootfs
+	cp -fr --preserve=mode,ownership tmp/rootfs/* /
+	rm -fr tmp
+	rm -rf /usbdrive
+	mkdir /usbdrive
+	chown patch:patch /usbdrive
+	@echo "  - copying patches"
+	mkdir /usbdrive/Patches
+	cp -r ../Organelle_Patches/* /usbdrive/Patches/
+	cp -r platforms/organelle_m/Patches/* /usbdrive/Patches/	
+	@echo "  - copying pd-extended"
+	mkdir /usbdrive/pd-extended
+	cp -r ../Organelle_pd_extra/* /usbdrive/pd-extended/
+	sync
+	
 # Generate with g++ -MM *.c* OSC/*.* 
 AppData.o: AppData.cpp AppData.h OledScreen.h
 MainMenu.o: MainMenu.cpp MainMenu.h AppData.h OledScreen.h
