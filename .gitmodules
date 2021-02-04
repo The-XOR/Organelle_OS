@@ -1,0 +1,9 @@
+[submodule "Organelle_Patches"]
+	path = Organelle_Patches
+	url = https://github.com/critterandguitari/Organelle_Patches
+[submodule "Organelle_pd_extra"]
+	path = Organelle_pd_extra
+	url = https://github.com/critterandguitari/Organelle_pd_extra
+[submodule "pigpio"]
+	path = pigpio
+	url = https://github.com/joan2937/pigpio/
