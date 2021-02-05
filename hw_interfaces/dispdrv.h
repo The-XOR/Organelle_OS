@@ -51,6 +51,7 @@ class DisplayDriver
 	private:
     	OLEDDISPLAY_TEXT_ALIGNMENT   textAlignment;
 		unsigned char *frame;
+		unsigned char *buffered_frame;
 		int frameSize;
 		int i2cd;
 		int i2c_address;

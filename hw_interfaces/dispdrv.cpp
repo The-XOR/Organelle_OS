@@ -45,6 +45,7 @@ bool DisplayDriver::Init(int addr, int w, int h, int p)
     pages = int(height / 8);
 	frameSize = width * pages;
 	frame = new unsigned char[frameSize];
+	buffered_frame = new unsigned char[frameSize];
 	SetTextAlignment(TEXT_ALIGN_LEFT);
 	SetFont(MEDIUM);
 
@@ -68,9 +69,15 @@ void DisplayDriver::Release()
 	if(frame)
 	{
 		delete []frame;
-		frameSize=0;
 		frame = NULL;
 	}
+
+	if(buffered_frame)
+	{
+		delete []buffered_frame;
+		buffered_frame = NULL;
+	}
+	frameSize=0;
 }
 
 DisplayDriver::DisplayDriver(int addr, int w, int h, int p)
@@ -82,7 +89,7 @@ DisplayDriver::DisplayDriver()
 {
 	i2cd = PI_NO_HANDLE;
 	i2c_address = width=height=	port = pages=frameSize=0;
-	frame=NULL;
+	buffered_frame=frame=NULL;
 }
 
 void DisplayDriver::SetFont(FontSize sz) 
@@ -204,6 +211,10 @@ void DisplayDriver::Render(unsigned char *from, int len)
 
 void DisplayDriver::Render()
 {
+	if(memcmp(frame, buffered_frame, frameSize) == 0)
+		return; // nulla e' cambiato
+		
+	memcpy(buffered_frame, frame, frameSize),
 	sendCommand(SETLOWCOLUMN | 0X00);
 	sendCommand(SETSTARTLINE | 0X00);
 
